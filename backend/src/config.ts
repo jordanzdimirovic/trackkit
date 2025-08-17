@@ -1,0 +1,1 @@
+export const GOOGLE_RESPONSE_ENDPOINT: string = '/auth/google/response';

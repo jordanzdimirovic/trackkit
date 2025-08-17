@@ -1,0 +1,39 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum AuthProvider {
+  LOCAL
+  GOOGLE
+}
+
+/// Trackkit User Model; Includes Sensitive Authentication Information
+model User {
+    id Int @id @default(autoincrement())
+
+    /// Authn provider identifier
+    provider AuthProvider
+
+    /// User email; obtained by provider, or used as username for local provider
+    email String @unique
+
+    /// Password hash; only used when provider is 'local'
+    passwordHash String?
+
+    /// External ID from provider
+    providerId String?
+
+    /// User's full display name
+    name String
+
+    /// User image URL (no image = handled by frontend)
+    profilePicUrl String?
+
+     @@unique([provider, providerId])
+
+}
